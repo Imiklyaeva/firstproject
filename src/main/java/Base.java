@@ -1,85 +1,54 @@
-import java.util.Random;
+import newyearpresent.Candy;
+import newyearpresent.Chocolate;
+import newyearpresent.Lollipop;
+import newyearpresent.Newyearpresent;
 
 /**
- * Задание 4 часть 1. Массив размерностью 20, заполняется случайными целыми числами от -10 до 10.
- * Найти максимальный отрицательный и минимальный положительный элементы массива. Поменять их местами.
+ * Задание 4 часть 2. Новогодний подарок
  *
  * @author Irina Miklyaeva
- * @see #makeRandomArray() Метод для создания массива, заполненного случайными числами в дапазоне от -10 до 10
- * @see #findMaxNegativElement(int[]) Метод для поиска максимального отрицательного элемента в массиве
- * @see #findMinPositiveElement(int[]) Метод для поиска минимального положительного элемента в массиве
+ * @see #findCommonPresentWeight(double, double, double) Метод для нахождения общего веса подарка
+ * @see #findCommonPresentPrice(double, double, double) Метод для нахождения общей стоимости подарка
  */
 public class Base {
     public static void main(String[] args) {
-        int[] randomArray = makeRandomArray();// Создаем массив случайный чисел и инициализируем его
-        System.out.println("Случайный массив:");
-        for (int v : randomArray) { // выводим в консоль полученный массив
-            System.out.print("; " + v);
-        }
-
-        int maxnegative = findMaxNegativElement(randomArray);// создаем переменную максимальный отрицательный элемент и передаем в нее индекс этого элемента;
-        int minpositive = findMinPositiveElement(randomArray);// создаем переменную минимальный положительный элемент и передаем в нее индекс этого элемента
-        System.out.println("\nМакс.отриц= " + randomArray[maxnegative]);// Вывод в консоль для проверки
-        System.out.println("Миним.положит= " + randomArray[minpositive]);//Вывод в консоль для проверки
-        int temp = randomArray[minpositive];// создаем буфер, куда помещаем значение минимального положительного элемента
-        randomArray[minpositive] = randomArray[maxnegative];// копируем максимальный отрицательный элемент на позицию минимального положительного
-        randomArray[maxnegative] = temp;// копируем из буфера значение минимального положительного элемента на поцицию максимального отрицательного
-        System.out.println("Измененный случайный массив:");
-        for (int v : randomArray) { // выводим в консоль массив с перестановкой
-            System.out.print("; " + v);
+        Candy candy = new Candy("Мечта", 5.00, 6.00, "апельсин");// Новый объект класса Конфета
+        Chocolate chocolate = new Chocolate("Милка", 80.00, 100.00, "Молочный");// Новый объект класса Шоколад
+        Lollipop lollipop = new Lollipop("Петушок", 20.00, 15.00, "Оранжевый");// Новый объект класса Леденец на палочке
+        Newyearpresent[] newYearPresent = {candy, chocolate, lollipop};// объявляем и инициализируем массив новогодний подарок
+        double commonNewYearPresentWeight = findCommonPresentWeight(candy.getPresentWeight(), chocolate.getPresentWeight(), lollipop.getPresentWeight());// объявляем и инициализируем переменную для общего веса новогоднего подарка
+        System.out.println("Общий вес новогоднего подарка = " + commonNewYearPresentWeight + " грамм");// выводим в консоль общий вес новогоднего подарка
+        double commonNewYearPresentPrice = findCommonPresentPrice(candy.getPresentPrice(), chocolate.getPresentPrice(), lollipop.getPresentPrice());//объявляем и инициализируем переменную для общей стоимости новогоднего подарка
+        System.out.println("Общая стоимость новогоднего подарка = " + commonNewYearPresentPrice + " рублей \nСладости, входящие в подарок:");// вывод в консоль общей стоимости новогоднего подарка
+        for (Newyearpresent somePresent : newYearPresent) {// выводим в консоль информацию о сладостях в подарке
+            System.out.println(somePresent.toString());
         }
     }
 
     /**
-     * Метод для создания массива, заполненного случайными числами в дапазоне от -10 до 10.
+     * Метод для нахождения общего веса подарка
      *
-     * @return Массив размерностью 20, заполенный случайными числами в диапазоне от -10 до 10
+     * @param candyPresentWeight     вес конфеты
+     * @param chocolatePresentWeight вес шоколада
+     * @param lollipopPresentWheigt  вес леденца на палочке
+     * @return Общий вес подарка
      */
-    private static int[] makeRandomArray() {
-        final Random random = new Random();// Создаем объект random
-        int array[] = new int[20];// Объявляем массив целых чисел размером 20
-        for (int i = 0; i < array.length; i++) { // заполняем массив случайными числами в диапазоне от -10 до 10 (границы random [0-21) со сдвигом на 10)
-            array[i] = random.nextInt(21) - 10;
-        }
-        return array;// возвращаем заполненный массив
+    private static double findCommonPresentWeight(double candyPresentWeight, double chocolatePresentWeight, double lollipopPresentWheigt) {
+        return candyPresentWeight + chocolatePresentWeight + lollipopPresentWheigt;// общий вес подарка= сумме веса конфеты, шоколада и леденца на палочке
+
     }
 
     /**
-     * Метод для поиска максимального отрицательного элемента в массиве
+     * Метод для нахождения общей стоимости подарка
      *
-     * @param arr Массив
-     * @return Индекс максимального отрицательного элемента массива
+     * @param candyPresentPrice     цена конфеты
+     * @param chocolatePresentPrice цены шоколада
+     * @param lollipopPresentPrice  цена леденца на палочке
+     * @return Общая стоимость подарка
      */
-    private static int findMaxNegativElement(int arr[]) {
-        int index = 0; // объявляем переменную для хранения позиции массива, где находится  максимальный отрицательный элемент
-        int maxneg = -10;// объявляем переменную для записи максимального отриц. элемента
-        for (int h = 0; h < 20; h++) {
-            if ((arr[h] < 0) && (arr[h] >= maxneg))// если элемент массива отрицательный И он больше или равен ранее найденного максимального отрицательного
-            {
-                maxneg = arr[h];//  сохраняем текущий максимальный отрицательный элемент
-                index = h;// сохраняем индекс элемента максимального отрицательного элемента массива
-            }
-        }
-        return index;// возвращаем индекс
-    }
+    private static double findCommonPresentPrice(double candyPresentPrice, double chocolatePresentPrice, double lollipopPresentPrice) {
+        return candyPresentPrice + chocolatePresentPrice + lollipopPresentPrice;// общая цена подарка= сумме цены конфеты, шоколада и леденца на палочке
 
-    /**
-     * Метод для поиска минимального положительного элемента в массиве
-     *
-     * @param arr Массив
-     * @return Индекс минимального положительного элемента массива
-     */
-    private static int findMinPositiveElement(int arr[]) {
-        int index = 0; // объявляем переменную для хранения позиции массива, где находится  минимальный положительный элемент
-        int minpos = 10;// объявляем переменную для записи минимального положительного элемента
-        for (int h = 0; h < 20; h++) {
-            if ((arr[h] >= 0) && (arr[h] <= minpos))// если элемент массива положительный И он меньше или равен ранее найденного минимального положительного
-            {
-                minpos = arr[h];//  сохраняем текущий минимальный положительный элемент
-                index = h;// сохраняем индекс минимального положительного элемента массива
-            }
-        }
-        return index;// возвращаем индекс
     }
 }
 
