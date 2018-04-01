@@ -1,55 +1,37 @@
-import newyearpresent.Candy;
-import newyearpresent.Chocolate;
-import newyearpresent.Lollipop;
-import newyearpresent.Newyearpresent;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.*;
 
 /**
- * Задание 4 часть 2. Новогодний подарок
+ * Задание 6. Коллекции.
  *
  * @author Irina Miklyaeva
- * @see #findCommonPresentWeight(double, double, double) Метод для нахождения общего веса подарка
- * @see #findCommonPresentPrice(double, double, double) Метод для нахождения общей стоимости подарка
  */
 public class Base {
-    public static void main(String[] args) {
-        Candy candy = new Candy("Мечта", 5.00, 6.00, "апельсин");// Новый объект класса Конфета
-        Chocolate chocolate = new Chocolate("Милка", 80.00, 100.00, "Молочный");// Новый объект класса Шоколад
-        Lollipop lollipop = new Lollipop("Петушок", 20.00, 15.00, "Оранжевый");// Новый объект класса Леденец на палочке
-        Newyearpresent[] newYearPresent = {candy, chocolate, lollipop};// объявляем и инициализируем массив новогодний подарок
-        double commonNewYearPresentWeight = findCommonPresentWeight(candy.getPresentWeight(), chocolate.getPresentWeight(), lollipop.getPresentWeight());// объявляем и инициализируем переменную для общего веса новогоднего подарка
-        System.out.println("Общий вес новогоднего подарка = " + commonNewYearPresentWeight + " грамм");// выводим в консоль общий вес новогоднего подарка
-        double commonNewYearPresentPrice = findCommonPresentPrice(candy.getPresentPrice(), chocolate.getPresentPrice(), lollipop.getPresentPrice());//объявляем и инициализируем переменную для общей стоимости новогоднего подарка
-        System.out.println("Общая стоимость новогоднего подарка = " + commonNewYearPresentPrice + " рублей \nСладости, входящие в подарок:");// вывод в консоль общей стоимости новогоднего подарка
-        for (Newyearpresent somePresent : newYearPresent) {// выводим в консоль информацию о сладостях в подарке
-            System.out.println(somePresent.toString());
+    public static void main(String[] args) throws FileNotFoundException {// проверка на отсутствие файла
+        Scanner scanner = new Scanner(new File("C:\\example.txt"));// передаем в объект Сканер путь к файлу
+        Map<String, Integer> statistics = new TreeMap<>();// Объявляем объект класса TreeMap (сортирует по естественному порядку ключей по возврастанию (для ключа типа строка - по-алфавиту))
+        while (scanner.hasNext()) {// пока следующее слово есть в файле
+            String word = scanner.useDelimiter("\\s+").next();// считываем слово через пробел
+            Integer count = statistics.get(word);// объявляем счетчик и инициализируем
+            if (count == null) {// если файл пустой , то счетчик=0
+                count = 0;
+            }
+            statistics.put(word, ++count); // помещаем считанное слово в коллекцию в ключ и увеличиваем счетчик на 1 и передаем в значение
         }
-    }
-
-    /**
-     * Метод для нахождения общего веса подарка
-     *
-     * @param candyPresentWeight     вес конфеты
-     * @param chocolatePresentWeight вес шоколада
-     * @param lollipopPresentWheigt  вес леденца на палочке
-     * @return Общий вес подарка
-     */
-    private static double findCommonPresentWeight(double candyPresentWeight, double chocolatePresentWeight, double lollipopPresentWheigt) {
-        return candyPresentWeight + chocolatePresentWeight + lollipopPresentWheigt;// общий вес подарка= сумме веса конфеты, шоколада и леденца на палочке
-
-    }
-
-    /**
-     * Метод для нахождения общей стоимости подарка
-     *
-     * @param candyPresentPrice     цена конфеты
-     * @param chocolatePresentPrice цены шоколада
-     * @param lollipopPresentPrice  цена леденца на палочке
-     * @return Общая стоимость подарка
-     */
-    private static double findCommonPresentPrice(double candyPresentPrice, double chocolatePresentPrice, double lollipopPresentPrice) {
-        return candyPresentPrice + chocolatePresentPrice + lollipopPresentPrice;// общая цена подарка= сумме цены конфеты, шоколада и леденца на палочке
+        System.out.println("Статистика (слово=количество повторений):\n"+statistics);// Выводим статистику в консоль
+        Integer maxvalue=0;// переменная для хранения максимального значения
+        String key = null;// переменная для значения ключа у максимального значения
+        for(Map.Entry<String,Integer> entry: statistics.entrySet()) {// получаем все ключи и значения
+            Integer value=entry.getValue();// передаем значение
+            if(value>maxvalue) {// Если текущеее значение больше максимального
+                maxvalue=value; // обновляем  максимальное
+                key=entry.getKey();// записываем значение ключа
+            }
+        } System.out.println( "слово с максимальным количеством повторений="+key+" число повторений="+maxvalue);// выводим в консоль слово и кол-во повторений
 
     }
 }
+
 
 
