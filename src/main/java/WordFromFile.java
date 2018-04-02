@@ -12,7 +12,7 @@ public class WordFromFile {// Класс Слова из файла
      * @return Коллекцию TreeMap с парой ключ=слово, значение= кол-во повторений в файле
      */
     public Map<String, Integer> wordsTreeMap () throws FileNotFoundException {
-        Scanner scanner = new Scanner(new File("C:\\example.txt"));// передаем в объект Сканер путь к файлу
+        Scanner scanner = new Scanner(new File("C:\\ProjectIdea\\src\\main\\resources\\example.txt"));// передаем в объект Сканер путь к файлу
         Map<String, Integer> statistics = new TreeMap<>();// Объявляем объект класса TreeMap (сортирует по естественному порядку ключей по возврастанию (для ключа типа строка - по-алфавиту))
         while (scanner.hasNext()) {// пока следующее слово есть в файле
             String word = scanner.useDelimiter("\\s+").next();// считываем слово через пробел
